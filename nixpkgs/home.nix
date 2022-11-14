@@ -44,6 +44,7 @@
       pull = { ff = "only"; };
       push.autoSetupRemote = true;
       init = { defaultBranch = "main"; };
+      help = { autocorrect = 5; };
     };
     difftastic = {
       enable = true;
