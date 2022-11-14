@@ -18,6 +18,7 @@
     mc
     ncdu
     nload
+    nodejs-16_x
     ripgrep
     timewarrior
     visidata
@@ -119,6 +120,26 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+      scan_timeout = 20;
+      add_newline = false;
+
+      battery = {
+        display = [{
+          threshold = 15;
+          style = "bold red";
+        }
+        {
+          threshold = 50;
+          style = "bold yellow";
+          discharging_symbol = "💦";
+        }];
+      };
+    };
   };
 
   # Raw configuration files
