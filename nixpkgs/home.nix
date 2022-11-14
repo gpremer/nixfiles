@@ -91,6 +91,11 @@
       LOCALE_ARCHIVE = /usr/lib/locale/locale-archive; # To get the locales working for nix;
     };
     initExtra = ''
+      # To make sure that bash completions are sourced. This is fixed upstream. Available in the next version?
+      if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
+        . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
+      fi
+
       # To include personal binaries (not pacakged yet) 
       PATH="$HOME/bin:$PATH"
 
@@ -114,6 +119,8 @@
       auto-pairs
       fzf-vim
       lightline-vim
+      vim-addon-nix
+      vim-nix
     ];
   };
 
