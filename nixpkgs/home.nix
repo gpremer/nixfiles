@@ -23,7 +23,7 @@
     timewarrior
     visidata
     wget
-    zenith
+    xsel
     zenith
     zoxide
   ];
@@ -128,6 +128,19 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+    defaultCommand = "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
+    defaultOptions = [
+      "--height 50%"
+      "-1"
+      "--reverse"
+      "--multi"
+      "--inline-info"
+      ''--preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2>/dev/null | head -300' ''
+      "--preview-window='right:hidden:wrap'"
+      ''--bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | xsel --clipboard --input)' ''
+    ];
+    fileWidgetCommand = "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
+    changeDirWidgetCommand = "fd --type d --strip-cwd-prefix --hidden --follow";
   };
 
   programs.starship = {
