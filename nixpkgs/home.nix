@@ -97,8 +97,16 @@
         . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
       fi
 
-      # To include personal binaries (not pacakged yet) 
-      PATH="$HOME/bin:$PATH"
+      # To include personal binaries (not pacakged with nix yet)
+      # set PATH so it includes user's private bin if it exists
+      if [ -d "$HOME/bin" ] ; then
+        PATH="$HOME/bin:$PATH"
+      fi
+
+      # set PATH so it includes user's private bin if it exists
+      if [ -d "$HOME/.local/bin" ] ; then
+          PATH="$HOME/.local/bin:$PATH"
+      fi
 
       # To use the nix-supplied binaries
       . ~/.nix-profile/etc/profile.d/nix.sh
@@ -108,6 +116,9 @@
         docker ps >/dev/null
         ip a l dev docker0 | grep inet | sed -e 's/.*inet \([^\/]*\).*/\1/'
       )
+
+      # AWV cli completion (TODO package in nix)
+      eval "$(/home/gpremer/bin/awv completion)"
     '';
   };
 
