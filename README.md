@@ -24,8 +24,15 @@ When on Nix 22.05
 nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
 nix-channel --update
 
+export NIX_PATH=${NIX_PATH:+$NIX_PATH:}$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
 nix-shell '<home-manager>' -A install
 ```
+
+The export was gleaned from [this github issue](https://github.com/nix-community/home-manager/issues/2564). Let's hope 
+this is not needed in a future version of home-manager.
+
+For the install to succeed, the `~/.bashrc` and `~/.profile` need to be moved out of the way. In a stand-alone
+invocation, `home-manager switch -b backup` could be used, but that's not possible when installing apparently.
 
 ### Setup configuration files
 
