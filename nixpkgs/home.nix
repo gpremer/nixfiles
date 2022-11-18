@@ -108,8 +108,10 @@
           PATH="$HOME/.local/bin:$PATH"
       fi
 
-      # To use the nix-supplied binaries
-      . ~/.nix-profile/etc/profile.d/nix.sh
+      # To use the nix-supplied binaries for a single-user installation
+      if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
+        . ~/.nix-profile/etc/profile.d/nix.sh
+      fi
 
       # For AWV docker-compose
       export DOCKER_OUTER_HOST=$(
