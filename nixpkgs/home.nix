@@ -89,7 +89,8 @@
       EDITOR = "nvim";
       SBT_CREDENTIALS = "~/.ivy2/.credentials";
       SBT_OPTS = "-Dsbt.override.build.repos=true -Xms1024m -Xmx2048m -XX:MaxPermSize=512m -Xss4m -XX:ReservedCodeCacheSize=64m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
-      LOCALE_ARCHIVE = /usr/lib/locale/locale-archive; # To get the locales working for nix;
+      LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive"; # To get the locales working for nix;
+      NODE_OPTIONS = "--openssl-legacy-provider"; # The nix-supplied node 16 links with a newer openssl version than the webpack of Angular 12 expects. See https://cardano.stackexchange.com/questions/6286/nix-is-building-ghc-during-on-nix-build-command-how-to-fix-the-cache. TODO move to dev env
     };
     initExtra = ''
       # To make sure that bash completions are sourced. This is fixed upstream. Available in the next version?
@@ -166,6 +167,7 @@
         display = [{
           threshold = 15;
           style = "bold red";
+          discharging_symbol = "🔥";
         }
         {
           threshold = 50;
