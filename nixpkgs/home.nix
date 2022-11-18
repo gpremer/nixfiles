@@ -14,12 +14,15 @@
     fd
     htop
     httpie
+    jless
     jq
     mc
+    mitmproxy
     ncdu
     nload
     nodejs-16_x
     ripgrep
+    tokei
     timewarrior
     visidata
     wget
