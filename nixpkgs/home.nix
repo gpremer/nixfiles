@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "gpremer";
@@ -44,10 +46,10 @@
       lg3-specific = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
     };
     extraConfig = {
-      pull = { ff = "only"; };
+      pull = {ff = "only";};
       push.autoSetupRemote = true;
-      init = { defaultBranch = "main"; };
-      help = { autocorrect = 5; };
+      init = {defaultBranch = "main";};
+      help = {autocorrect = 5;};
     };
     difftastic = {
       enable = true;
@@ -62,7 +64,7 @@
     };
   };
 
-  programs.emacs = {                              
+  programs.emacs = {
     enable = true;
     extraPackages = epkgs: [
       epkgs.nix-mode
@@ -76,17 +78,17 @@
 
   programs.bash = {
     enable = true;
-    historyControl = [ "ignoredups" "ignorespace" ];
+    historyControl = ["ignoredups" "ignorespace"];
     shellAliases = {
-      ls="exa";
-      ll="exa -al";
-      la="exa -a";
-      l="exa -G";
-      tw="timew";
-      twc="timew cont";
-      tws="timew stop";
+      ls = "exa";
+      ll = "exa -al";
+      la = "exa -a";
+      l = "exa -G";
+      tw = "timew";
+      twc = "timew cont";
+      tws = "timew stop";
       # To prevent code to see CTRL+SHIFT+E as emoji start sequence (https://askubuntu.com/questions/1046418/how-do-i-disable-emoji-input-in-ubuntu-mate-18-04)
-      code="GTK_IM_MODULE=\"xim\" code";
+      code = "GTK_IM_MODULE=\"xim\" code";
     };
     sessionVariables = {
       EDITOR = "nvim";
@@ -167,16 +169,18 @@
       add_newline = false;
 
       battery = {
-        display = [{
-          threshold = 15;
-          style = "bold red";
-          discharging_symbol = "🔥";
-        }
-        {
-          threshold = 50;
-          style = "bold yellow";
-          discharging_symbol = "💦";
-        }];
+        display = [
+          {
+            threshold = 15;
+            style = "bold red";
+            discharging_symbol = "🔥";
+          }
+          {
+            threshold = 50;
+            style = "bold yellow";
+            discharging_symbol = "💦";
+          }
+        ];
       };
     };
   };
@@ -196,7 +200,7 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  
+
   # work-around for https://github.com/NixOS/nixpkgs/issues/196651
   manual.manpages.enable = false;
 }
