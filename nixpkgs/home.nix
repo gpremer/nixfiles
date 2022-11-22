@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{ config, pkgs, ... }: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "gpremer";
@@ -21,9 +17,11 @@
     mc
     mitmproxy
     ncdu
+    nixfmt
     nload
     nodejs-16_x
     ripgrep
+    rsync
     tokei
     timewarrior
     visidata
@@ -41,19 +39,20 @@
       lg1 = "lg1-specific --all";
       lg2 = "lg2-specific --all";
       lg3 = "lg3-specific --all";
-      lg1-specific = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-      lg2-specific = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
-      lg3-specific = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
+      lg1-specific =
+        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+      lg2-specific =
+        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
+      lg3-specific =
+        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
     };
     extraConfig = {
-      pull = {ff = "only";};
+      pull = { ff = "only"; };
       push.autoSetupRemote = true;
-      init = {defaultBranch = "main";};
-      help = {autocorrect = 5;};
+      init = { defaultBranch = "main"; };
+      help = { autocorrect = 5; };
     };
-    difftastic = {
-      enable = true;
-    };
+    difftastic = { enable = true; };
   };
 
   programs.direnv = {
@@ -66,19 +65,14 @@
 
   programs.emacs = {
     enable = true;
-    extraPackages = epkgs: [
-      epkgs.nix-mode
-      epkgs.magit
-    ];
+    extraPackages = epkgs: [ epkgs.nix-mode epkgs.magit ];
   };
 
-  programs.zoxide = {
-    enable = true;
-  };
+  programs.zoxide = { enable = true; };
 
   programs.bash = {
     enable = true;
-    historyControl = ["ignoredups" "ignorespace"];
+    historyControl = [ "ignoredups" "ignorespace" ];
     shellAliases = {
       ls = "exa";
       ll = "exa -al";
@@ -88,14 +82,17 @@
       twc = "timew cont";
       tws = "timew stop";
       # To prevent code to see CTRL+SHIFT+E as emoji start sequence (https://askubuntu.com/questions/1046418/how-do-i-disable-emoji-input-in-ubuntu-mate-18-04)
-      code = "GTK_IM_MODULE=\"xim\" code";
+      code = ''GTK_IM_MODULE="xim" NODE_OPTIONS="" code'';
     };
     sessionVariables = {
       EDITOR = "nvim";
       SBT_CREDENTIALS = "~/.ivy2/.credentials";
-      SBT_OPTS = "-Dsbt.override.build.repos=true -Xms1024m -Xmx2048m -XX:MaxPermSize=512m -Xss4m -XX:ReservedCodeCacheSize=64m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
-      LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive"; # To get the locales working for nix;
-      NODE_OPTIONS = "--openssl-legacy-provider"; # The nix-supplied node 16 links with a newer openssl version than the webpack of Angular 12 expects. See https://cardano.stackexchange.com/questions/6286/nix-is-building-ghc-during-on-nix-build-command-how-to-fix-the-cache. TODO move to dev env
+      SBT_OPTS =
+        "-Dsbt.override.build.repos=true -Xms1024m -Xmx2048m -XX:MaxPermSize=512m -Xss4m -XX:ReservedCodeCacheSize=64m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
+      LOCALE_ARCHIVE =
+        "/usr/lib/locale/locale-archive"; # To get the locales working for nix;
+      NODE_OPTIONS =
+        "--openssl-legacy-provider"; # The nix-supplied node 16 links with a newer openssl version than the webpack of Angular 12 expects. See https://cardano.stackexchange.com/questions/6286/nix-is-building-ghc-during-on-nix-build-command-how-to-fix-the-cache. TODO move to dev env
     };
     initExtra = ''
       # To make sure that bash completions are sourced. This is fixed upstream. Available in the next version?
@@ -147,18 +144,20 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    defaultCommand = "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
+    defaultCommand =
+      "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
     defaultOptions = [
       "--height 50%"
       "-1"
       "--reverse"
       "--multi"
       "--inline-info"
-      ''--preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2>/dev/null | head -300' ''
+      "--preview='[[ \\$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || cat {}) 2>/dev/null | head -300' "
       "--preview-window='right:hidden:wrap'"
-      ''--bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | xsel --clipboard --input)' ''
+      "--bind='f3:execute(bat --style=numbers {} || less -f {}),f2:toggle-preview,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-a:select-all+accept,ctrl-y:execute-silent(echo {+} | xsel --clipboard --input)' "
     ];
-    fileWidgetCommand = "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
+    fileWidgetCommand =
+      "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git";
     changeDirWidgetCommand = "fd --type d --strip-cwd-prefix --hidden --follow";
   };
 
