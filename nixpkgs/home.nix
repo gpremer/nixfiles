@@ -7,6 +7,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     bat
+    byobu
     curl
     exa
     fd
@@ -14,6 +15,7 @@
     httpie
     jless
     jq
+    lnav
     mc
     mitmproxy
     ncdu
@@ -22,13 +24,29 @@
     nodejs-16_x
     ripgrep
     rsync
+    sqlite
     tokei
     timewarrior
+    tmux
     visidata
     wget
     xsel
     zenith
     zoxide
+
+    chromium
+    darktable
+    geeqie
+    gimp
+    inkscape
+    keepassx2
+    speedcrunch
+    gnome.vinagre
+
+    awscli2
+    k9s
+    bsdgames
+
   ];
 
   programs.git = {
@@ -42,15 +60,17 @@
       lg1-specific =
         "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
       lg2-specific =
-        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
+        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
       lg3-specific =
-        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
+        "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n          %C(white)%s%C(reset)%n          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
     };
     extraConfig = {
       pull = { ff = "only"; };
       push.autoSetupRemote = true;
       init = { defaultBranch = "main"; };
       help = { autocorrect = 30; };
+      user.useConfigOnly = true;
+      "includeIf \"gitdir:~/src/**/awv/\"" = { path = "./awv_config"; };
     };
     difftastic = { enable = true; };
   };
@@ -184,8 +204,23 @@
     };
   };
 
+  programs.vscode = {
+    enable = true;
+  };
+
+  programs.java = {
+    enable = true;
+    package = pkgs.openjdk;
+  };
+
   # Raw configuration files
   home.file.".npmrc".source = ../npmrc;
+  home.file.".config/git/awv_config" = {
+    text = ''
+      [user]
+      email = "geert.premereur@mow.vlaanderen.be"
+    '';
+  };
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
