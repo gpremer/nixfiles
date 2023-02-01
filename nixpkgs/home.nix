@@ -40,6 +40,7 @@
     gimp
     inkscape
     keepassx2
+    peek
     speedcrunch
     gnome.vinagre
 
