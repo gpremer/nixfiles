@@ -31,6 +31,7 @@
     visidata
     wget
     xsel
+    yamllint
     zenith
     zoxide
 
