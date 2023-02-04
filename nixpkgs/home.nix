@@ -206,9 +206,7 @@
     };
   };
 
-  programs.vscode = {
-    enable = true;
-  };
+  programs.vscode = { enable = true; };
 
   programs.java = {
     enable = true;
@@ -216,12 +214,22 @@
   };
 
   # Raw configuration files
-  home.file.".npmrc".source = ../npmrc;
-  home.file.".config/git/awv_config" = {
-    text = ''
-      [user]
-      email = "geert.premereur@mow.vlaanderen.be"
-    '';
+  home.file = {
+    ".npmrc".source = ../npmrc;
+    ".config/git/awv_config" = {
+      text = ''
+        [user]
+        email = "geert.premereur@mow.vlaanderen.be"
+      '';
+    };
+    "./bin/tw-sum.sh" = {
+      source = ../config/bin/tw-sum.sh;
+      executable = true;
+    };
+    "./bin/login-aws.sh" = {
+      source = ../config/bin/login-aws.sh;
+      executable = true;
+    };
   };
 
   # This value determines the Home Manager release that your
