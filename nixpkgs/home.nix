@@ -6,6 +6,7 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # development / cmd line
     bat
     byobu
     curl
@@ -30,11 +31,14 @@
     tmux
     visidata
     wget
+    unzip
     xsel
     yamllint
     zenith
+    zip
     zoxide
 
+    # UI tools
     chromium
     darktable
     geeqie
@@ -45,10 +49,13 @@
     speedcrunch
     gnome.vinagre
 
+    # cloud
     awscli2
     k9s
-    bsdgames
 
+    # tools
+    bsdgames
+    imagemagick
   ];
 
   programs.git = {
