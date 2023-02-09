@@ -10,6 +10,7 @@
     bat
     byobu
     curl
+    dive
     exa
     fd
     htop
