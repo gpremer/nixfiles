@@ -118,7 +118,7 @@
       EDITOR = "nvim";
       SBT_CREDENTIALS = "${home.homeDirectory}/.ivy2/.credentials";
       SBT_OPTS =
-        "-Dsbt.override.build.repos=true -Xms1024m -Xmx2048m -Xss4m -XX:ReservedCodeCacheSize=64m -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
+        "-Dsbt.override.build.repos=true -Xmx8G -XX:+UseG1GC -XX:MetaspaceSize=2048m -Xss8M -XX:ReservedCodeCacheSize=512m -Dsbt.jse.engineType=Node -XX:MaxInlineLevel=20 -XX:+TieredCompilation -server -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
       LOCALE_ARCHIVE =
         "/usr/lib/locale/locale-archive"; # To get the locales working for nix;
       #NODE_OPTIONS =
