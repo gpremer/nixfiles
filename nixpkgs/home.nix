@@ -52,6 +52,7 @@
 
     # cloud
     awscli2
+    aws-iam-authenticator
     k9s
 
     # tools
