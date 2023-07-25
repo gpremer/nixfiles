@@ -23,7 +23,7 @@
     ncdu
     nixfmt
     nload
-    nodejs-16_x
+    nodejs-18_x
     ripgrep
     rsync
     sqlite
@@ -45,7 +45,7 @@
     geeqie
     gimp
     inkscape
-    keepassx2
+    keepassxc
     peek
     speedcrunch
     gnome.vinagre
@@ -240,6 +240,7 @@
       source = ../config/bin/login-aws.sh;
       executable = true;
     };
+    ".config/lnav/formats/installed/logstash_log.json".source = ../config/lnav/logstash_log.json;
   };
 
   # This value determines the Home Manager release that your
