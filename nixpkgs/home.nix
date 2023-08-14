@@ -10,6 +10,7 @@
     bat
     byobu
     curl
+    dbeaver
     dive
     exa
     fd
