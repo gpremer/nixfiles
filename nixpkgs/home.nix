@@ -8,36 +8,24 @@
   home.packages = with pkgs; [
     # development / cmd line
     bat
-    byobu
     curl
     dbeaver
     dive
-    exa
     fd
-    htop
     httpie
     jless
     jq
     lnav
-    mc
     mitmproxy
-    ncdu
     nixfmt
-    nload
     nodejs-18_x
     ripgrep
-    rsync
     sqlite
     tokei
     timewarrior
-    tmux
     visidata
     wget
-    unzip
-    xsel
     yamllint
-    zenith
-    zip
     zoxide
 
     # UI tools
@@ -58,7 +46,23 @@
 
     # tools
     bsdgames
+    byobu
+    exa
+    file
     imagemagick
+    htop
+    mc
+    ncdu
+    rsync
+    tmux
+    unzip
+    xsel
+    zenith
+    zip
+
+    # network
+    dig
+    nload
   ];
 
   programs.git = {
