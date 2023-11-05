@@ -63,6 +63,12 @@
     # network
     dig
     nload
+
+    # office
+    libreoffice-fresh
+    hunspell
+    hunspellDicts.nl_nl
+    hunspellDicts.en-gb-large
   ];
 
   programs.git = {
