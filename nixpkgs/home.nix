@@ -48,6 +48,7 @@
     bsdgames
     byobu
     exa
+    fclones
     file
     imagemagick
     htop
@@ -232,6 +233,10 @@
   programs.java = {
     enable = true;
     package = pkgs.openjdk;
+  };
+
+  programs.btop = {
+    enable = true;
   };
 
   # Raw configuration files
