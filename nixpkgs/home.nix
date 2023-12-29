@@ -46,6 +46,7 @@
 
     # tools
     bsdgames
+    btop
     byobu
     exa
     fclones
@@ -55,6 +56,7 @@
     mc
     ncdu
     rsync
+    tldr-hs
     tmux
     unzip
     xsel
@@ -70,6 +72,9 @@
     hunspell
     hunspellDicts.nl_nl
     hunspellDicts.en-gb-large
+
+    # sharing
+    magic-wormhole
   ];
 
   programs.git = {
@@ -86,7 +91,7 @@
         "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
       lg3-specific =
         "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n          %C(white)%s%C(reset)%n          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
-      amend = "!git commit --amend --no-edit --date \"$(date)\"";
+      amend = ''!git commit --amend --no-edit --date "$(date)"'';
     };
     extraConfig = {
       pull = { ff = "only"; };
@@ -252,11 +257,16 @@
       source = ../config/bin/tw-sum.sh;
       executable = true;
     };
+    "./bin/tw-retag.sh" = {
+      source = ../config/bin/tw-retag.sh;
+      executable = true;
+    };
     "./bin/login-aws.sh" = {
       source = ../config/bin/login-aws.sh;
       executable = true;
     };
-    ".config/lnav/formats/installed/logstash_log.json".source = ../config/lnav/logstash_log.json;
+    ".config/lnav/formats/installed/logstash_log.json".source =
+      ../config/lnav/logstash_log.json;
   };
 
   # This value determines the Home Manager release that your
