@@ -12,6 +12,7 @@
     dbeaver
     dive
     fd
+    helix
     httpie
     jless
     jq
