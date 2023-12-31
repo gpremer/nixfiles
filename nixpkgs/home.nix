@@ -49,7 +49,7 @@
     bsdgames
     btop
     byobu
-    exa
+    eza
     fclones
     file
     imagemagick
