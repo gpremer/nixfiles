@@ -268,7 +268,7 @@
       ../config/lnav/logstash_log.json;
     ".sbt/1.0/global.sbt" = {
       text = ''
-        semanticdbEnabled := true
+        Global / semanticdbEnabled := true
       '';
     };
   };
