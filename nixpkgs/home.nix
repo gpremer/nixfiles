@@ -241,9 +241,7 @@
     package = pkgs.openjdk;
   };
 
-  programs.btop = {
-    enable = true;
-  };
+  programs.btop = { enable = true; };
 
   # Raw configuration files
   home.file = {
@@ -268,8 +266,12 @@
     };
     ".config/lnav/formats/installed/logstash_log.json".source =
       ../config/lnav/logstash_log.json;
+    ".sbt/1.0/global.sbt" = {
+      text = ''
+        semanticdbEnabled := true
+      '';
+    };
   };
-
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
