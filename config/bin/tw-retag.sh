@@ -6,7 +6,7 @@ replace_tags() {
     local old_tag=$2
     local new_tag=$3
 
-    echo timew untag "${ids}" "${old_tag}" && echo timew tag "${ids}" "${new_tag}"
+    timew untag ${ids} "${old_tag}" && timew tag ${ids} "${new_tag}"
 }
 
 # Print usage information

@@ -131,6 +131,7 @@
       tw = "timew";
       twc = "timew cont";
       tws = "timew stop";
+      batp = "bat -p";
       # To prevent code to see CTRL+SHIFT+E as emoji start sequence (https://askubuntu.com/questions/1046418/how-do-i-disable-emoji-input-in-ubuntu-mate-18-04)
       code = ''GTK_IM_MODULE="xim" NODE_OPTIONS="" code'';
     };
