@@ -93,14 +93,25 @@
       lg3-specific =
         "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n          %C(white)%s%C(reset)%n          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
       amend = ''!git commit --amend --no-edit --date "$(date)"'';
+      fpush = "push --force-with-lease";
     };
     extraConfig = {
       pull = { ff = "only"; };
       push.autoSetupRemote = true;
       init = { defaultBranch = "main"; };
       help = { autocorrect = 30; };
-      user.useConfigOnly = true;
+      user = {
+        useConfigOnly = true;
+        signingKey = "~/.ssh/id_ed25519.pub";
+      };
       "includeIf \"gitdir:~/src/**/awv/\"" = { path = "./awv_config"; };
+      rerere = {
+        enabled = true;
+        autoUpdate = true;
+      };
+      column.ui = "auto";
+      gpg.format = "ssh";
+      maintenance = { strategy = "incremental"; };
     };
     difftastic = { enable = true; };
   };
