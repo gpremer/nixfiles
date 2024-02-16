@@ -112,6 +112,7 @@
       column.ui = "auto";
       gpg.format = "ssh";
       maintenance = { strategy = "incremental"; };
+      commit = { gpgsign = true; };
     };
     difftastic = { enable = true; };
   };
@@ -147,7 +148,7 @@
       code = ''GTK_IM_MODULE="xim" NODE_OPTIONS="" code'';
     };
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = "hx";
       SBT_CREDENTIALS = "${home.homeDirectory}/.ivy2/.credentials";
       SBT_OPTS =
         "-Dsbt.override.build.repos=true -Xmx8G -XX:+UseG1GC -XX:MetaspaceSize=2048m -Xss8M -XX:ReservedCodeCacheSize=512m -Dsbt.jse.engineType=Node -XX:MaxInlineLevel=20 -XX:+TieredCompilation -server -Dfile.encoding=UTF-8 -Dsbt.boot.credentials=$SBT_CREDENTIALS";
