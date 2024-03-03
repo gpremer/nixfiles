@@ -7,6 +7,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # development / cmd line
+    autossh
     bat
     curl
     dbeaver
