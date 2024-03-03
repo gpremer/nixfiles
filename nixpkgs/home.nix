@@ -56,6 +56,7 @@
     imagemagick
     htop
     mc
+    mupdf # for mutool use in script -> make a derivation for this
     ncdu
     rsync
     tldr-hs
