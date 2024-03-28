@@ -96,6 +96,18 @@
         "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n          %C(white)%s%C(reset)%n          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
       amend = ''!git commit --amend --no-edit --date "$(date)"'';
       fpush = "push --force-with-lease";
+      new-feature = ''
+        !f() { 
+            if [ "$1" != "-f" ] && [ "$(git symbolic-ref --short HEAD)" != "master" ]; then 
+                echo 'Error: You must be on the master branch to create a new feature branch.'; 
+                exit 1; 
+            fi; 
+            branch_name="$1"; 
+            if [ "$1" = "-f" ]; then 
+                branch_name="$2"; 
+            fi;
+            git switch -c "features/$branch_name";
+        }; f'';
     };
     extraConfig = {
       pull = { ff = "only"; };
