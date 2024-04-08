@@ -19,7 +19,9 @@
     jq
     lnav
     mitmproxy
+    nixd
     nixfmt
+    nil
     nodejs-18_x
     ripgrep
     sqlite
