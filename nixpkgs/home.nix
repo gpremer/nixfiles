@@ -65,7 +65,6 @@
     tmux
     unzip
     xsel
-    zenith
     zip
 
     # network
@@ -272,6 +271,16 @@
   };
 
   programs.btop = { enable = true; };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window.startup_mode = "Maximized";
+      font.normal.family = "FiraCode Nerd Font Mono";
+      font.normal.style = "Regular";
+      font.size = 11.25;
+    };
+  };
 
   # Raw configuration files
   home.file = {
