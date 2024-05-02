@@ -282,6 +282,10 @@
     };
   };
 
+  programs.zellij = {
+    enable = true;
+  };
+
   # Raw configuration files
   home.file = {
     ".npmrc".source = ../npmrc;
