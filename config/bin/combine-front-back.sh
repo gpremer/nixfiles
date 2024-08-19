@@ -43,5 +43,8 @@ for ((page = 1; page <= front_page_count; page++)); do
 
     output_file="${output_prefix}_${page}.pdf"
     mutool merge -o "$output_file" "$front_file" $page "$back_file" $back_page
-    echo "Combined front page $page and back page $back_page into $output_file"
 done
+
+mutool merge -o "${output_prefix}.pdf" "${output_prefix}_"*.pdf
+rm "${output_prefix}_"*.pdf
+echo "Combined front ${front_file} and back ${back_file} into ${output_prefix}"
