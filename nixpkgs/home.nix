@@ -109,6 +109,8 @@
             fi;
             git switch -c "features/$branch_name";
         }; f'';
+      r = "rebase -i origin/master";
+      pwl = "push --force-with-lease";
     };
     extraConfig = {
       pull = { ff = "only"; };
