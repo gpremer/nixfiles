@@ -161,6 +161,7 @@
       btm = "byobu-tmux";
       batp = "bat -p";
       rg-ts = "rg -g '*.ts'";
+      rg-html= "rg -g '*.html'";
       rg-scala = "rg -g '*.scala'";
       sane = "stty sane";
       # To prevent code to see CTRL+SHIFT+E as emoji start sequence (https://askubuntu.com/questions/1046418/how-do-i-disable-emoji-input-in-ubuntu-mate-18-04)
