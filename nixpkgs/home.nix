@@ -42,6 +42,7 @@
     peek
     speedcrunch
     gnome.vinagre
+    vlc
 
     # cloud
     awscli2
