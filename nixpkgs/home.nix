@@ -10,7 +10,7 @@
     autossh
     bat
     curl
-    dbeaver
+    dbeaver-bin
     dive
     fd
     helix
@@ -20,7 +20,7 @@
     lnav
     mitmproxy
     nixd
-    nixfmt
+    nixfmt-classic
     nil
     nodejs-18_x
     ripgrep
@@ -40,8 +40,8 @@
     inkscape
     keepassxc
     peek
+    remmina
     speedcrunch
-    gnome.vinagre
     vlc
 
     # cloud
