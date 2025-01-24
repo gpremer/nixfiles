@@ -1,0 +1,186 @@
+#!/usr/bin/env bash
+
+# Enable strict error handling
+set -euo pipefail
+
+# Default verbosity level (0=quiet, 1=normal, 2=debug)
+VERBOSE=0
+
+# Usage information
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+Find and configure the SSH agent socket.
+
+Options:
+    -h, --help      Show this help message
+    -v, --verbose   Show informational messages
+    -vv            Show debug messages
+    -a, --all       List all available agents instead of just the first one
+EOF
+}
+
+# Logging functions
+log_debug() {
+    if [[ $VERBOSE -ge 2 ]]; then
+        echo "DEBUG: $*" >&2
+    fi
+}
+
+log_info() {
+    if [[ $VERBOSE -ge 1 ]]; then
+        echo "INFO: $*" >&2
+    fi
+}
+
+log_error() {
+    echo "ERROR: $*" >&2
+}
+
+# Print to stdout (for commands to be eval'd)
+print_command() {
+    echo "$@"
+}
+
+# Parse command line arguments
+parse_args() {
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        -vv)
+            VERBOSE=2
+            ;;
+        -v | --verbose)
+            VERBOSE=1
+            ;;
+        -a | --all)
+            LIST_ALL=1
+            ;;
+        *)
+            log_error "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+        esac
+        shift
+    done
+}
+
+# Function to test if a socket is valid
+test_socket() {
+    local socket=$1
+    local timeout=${2:-2} # Default 2-second timeout
+    log_debug "Testing socket: $socket"
+
+    if [[ ! -S "$socket" ]]; then
+        log_debug "Not a valid socket: $socket"
+        return 1
+    fi
+
+    # Use timeout to prevent hanging on unresponsive sshd processes
+    if ! timeout "$timeout" env SSH_AUTH_SOCK="$socket" ssh-add -l >/dev/null 2>&1; then
+        log_debug "Socket is not responding or timed out: $socket"
+        return 1
+    fi
+
+    log_debug "Socket is valid: $socket"
+    return 0
+}
+
+# Function to get SSH-related process PIDs
+get_ssh_pids() {
+    # Get ssh-agent processes
+    local agent_pids=($(ps -u "$USER" -o pid,comm | grep '[s]sh-agent' | awk '{print $1}'))
+
+    # Get sshd user processes
+    local sshd_pids=($(ps -u "$USER" -o pid,args | grep '[s]shd:.*'"$USER" | awk '{print $1}'))
+
+    # Combine and return all PIDs
+    echo "${agent_pids[@]}" "${sshd_pids[@]}"
+}
+
+# Function to find SSH agent socket
+find_ssh_agent_socket() {
+    local user_id=$(id -u)
+    local valid_sockets=()
+
+    # Try the systemd user keyring location first
+    local keyring_socket="/run/user/${user_id}/keyring/ssh"
+    log_debug "Checking keyring socket: $keyring_socket"
+    if test_socket "$keyring_socket"; then
+        valid_sockets+=("$keyring_socket")
+        log_info "Found valid keyring socket"
+    fi
+
+    # Get all SSH-related processes for current user
+    local pids=($(get_ssh_pids))
+
+    if [[ ${#pids[@]} -gt 0 ]]; then
+        log_info "Found ${#pids[@]} SSH-related processes"
+
+        for pid in "${pids[@]}"; do
+            log_debug "Checking for sockets for PID: $pid"
+
+            # Look for matching sockets in /tmp
+            while IFS= read -r socket_path; do
+                if [[ -n "$socket_path" ]] && test_socket "$socket_path"; then
+                    valid_sockets+=("$socket_path")
+                    log_info "Found valid socket for PID $pid: $socket_path"
+                fi
+            done < <(find /tmp -type s -name "agent.${pid}" 2>/dev/null)
+
+            # Also check parent directory name pattern
+            while IFS= read -r socket_path; do
+                if [[ -n "$socket_path" ]] && test_socket "$socket_path"; then
+                    valid_sockets+=("$socket_path")
+                    log_info "Found valid socket in ssh directory for PID $pid: $socket_path"
+                fi
+            done < <(find /tmp/ssh-* -type s 2>/dev/null)
+        done
+    else
+        log_info "No SSH-related processes found"
+    fi
+
+    # Additional locations to check (customize as needed)
+    local additional_locations=(
+        "$HOME/.ssh/agent.sock"
+        "/tmp/ssh-agent.sock"
+    )
+
+    for loc in "${additional_locations[@]}"; do
+        log_debug "Checking additional location: $loc"
+        if test_socket "$loc" 1; then
+            valid_sockets+=("$loc")
+            log_info "Found valid socket at additional location: $loc"
+        fi
+    done
+
+    if [[ ${#valid_sockets[@]} -eq 0 ]]; then
+        log_error "No valid SSH agent sockets found"
+        return 1
+    fi
+
+    if [[ -n "${LIST_ALL:-}" ]]; then
+        # Output all valid sockets
+        for socket in "${valid_sockets[@]}"; do
+            print_command "export SSH_AUTH_SOCK=$socket"
+        done
+    else
+        # Output just the first valid socket
+        print_command "export SSH_AUTH_SOCK=${valid_sockets[0]}"
+    fi
+
+    return 0
+}
+
+# Main script
+main() {
+    parse_args "$@"
+    find_ssh_agent_socket
+}
+
+# Run main function with all script arguments
+main "$@"
