@@ -12,7 +12,9 @@
     curl
     dbeaver-bin
     dive
+    duf
     fd
+    fx
     helix
     httpie
     jless
