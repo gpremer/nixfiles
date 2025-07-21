@@ -83,6 +83,7 @@
 
     # sharing
     magic-wormhole
+    localsend
   ];
 
   programs.git = {
